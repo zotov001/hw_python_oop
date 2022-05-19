@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict, Tuple, Type
+from typing import Dict, Type
 
 
 @dataclass
@@ -47,13 +47,13 @@ class Training:
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         raise NotImplementedError(
-            f'get_spent_calories не определен в {type(self).name}'
+            f'get_spent_calories не определен в {type(self).__name__}'
         )
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
         return InfoMessage(
-            self.__class__.__name__,
+            type(self).__name__,
             self.duration,
             self.get_distance(),
             self.get_mean_speed(),
@@ -133,8 +133,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-
-    workout_inf: Dict[str, Tuple[Type[Training]]] = {
+    workout_inf: Dict[str, Type[Training]] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
